@@ -2,22 +2,22 @@ import { useState, useEffect } from "react";
 import "./App.css";
 
 function App() {
+  const [expenses, setExpenses] = useState(() => {
+    const savedExpenses = localStorage.getItem("expenses");
+    return savedExpenses ? JSON.parse(savedExpenses) : [];
+  });
 
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("Food");
+  const [search, setSearch] = useState("");
 
-  const [expenses, setExpenses] = useState(() => {
-    const saved = localStorage.getItem("expenses");
-
-    return saved ? JSON.parse(saved) : [];
-  });
+  const filteredExpenses = expenses.filter((expense) =>
+    expense.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   useEffect(() => {
-    localStorage.setItem(
-      "expenses",
-      JSON.stringify(expenses)
-    );
+    localStorage.setItem("expenses", JSON.stringify(expenses));
   }, [expenses]);
 
   function handleSubmit(e) {
@@ -29,7 +29,7 @@ function App() {
       id: Date.now(),
       name,
       amount: Number(amount),
-      category
+      category,
     };
 
     setExpenses([...expenses, expense]);
@@ -40,114 +40,70 @@ function App() {
   }
 
   function deleteExpense(id) {
-    setExpenses(
-      expenses.filter(
-        expense => expense.id !== id
-      )
-    );
+    setExpenses(expenses.filter((expense) => expense.id !== id));
   }
 
-  const total = expenses.reduce(
-    (sum, expense) =>
-      sum + expense.amount,
-    0
-  );
+  const total = expenses.reduce((sum, expense) => sum + expense.amount, 0);
 
   return (
     <div className="container">
-
       <h1>Expense Tracker</h1>
 
       <form onSubmit={handleSubmit}>
-
         <input
           type="text"
           placeholder="Expense Name"
           value={name}
-          onChange={(e) =>
-            setName(e.target.value)
-          }
+          onChange={(e) => setName(e.target.value)}
         />
 
         <input
           type="number"
           placeholder="Amount"
           value={amount}
-          onChange={(e) =>
-            setAmount(e.target.value)
-          }
+          onChange={(e) => setAmount(e.target.value)}
         />
 
         <select
           value={category}
-          onChange={(e) =>
-            setCategory(e.target.value)
-          }
+          onChange={(e) => setCategory(e.target.value)}
         >
-
           <option>Food</option>
           <option>Travel</option>
           <option>Shopping</option>
           <option>Entertainment</option>
           <option>Bills</option>
-
         </select>
 
-        <button type="submit">
-          Add Expense
-        </button>
-
+        <button type="submit">Add Expense</button>
       </form>
 
-      <h2>
-        Total: ₹{total}
-      </h2>
+      <input
+        type="text"
+        placeholder="Search expenses..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      <h2>Total: ₹{total}</h2>
 
       <div className="expenses">
-
-        {expenses.map(expense => (
-
-          <div
-            className="expense"
-            key={expense.id}
-          >
-
+        {filteredExpenses.map((expense) => (
+          <div className="expense" key={expense.id}>
             <div>
-
-              <h3>
-                {expense.name}
-              </h3>
-
-              <p>
-                {expense.category}
-              </p>
-
+              <h3>{expense.name}</h3>
+              <p>{expense.category}</p>
             </div>
 
             <div>
-
-              <p>
-                ₹{expense.amount}
-              </p>
-
-              <button
-                onClick={() =>
-                  deleteExpense(
-                    expense.id
-                  )
-                }
-              >
+              <p>₹{expense.amount}</p>
+              <button onClick={() => deleteExpense(expense.id)}>
                 Delete
               </button>
-
             </div>
-
           </div>
-
         ))}
-
       </div>
-
     </div>
   );
 }
