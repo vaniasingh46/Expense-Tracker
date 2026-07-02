@@ -1,61 +1,71 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
-body {
-  background: #f4f4f4;
-  font-family: Arial, sans-serif;
+body{
+  background:#f4f4f4;
+  font-family:Arial,sans-serif;
 }
 
-.container {
-  width: 400px;
-  margin: 50px auto;
-  background: white;
-  padding: 25px;
-  border-radius: 10px;
+.container{
+  width:450px;
+  margin:40px auto;
+  background:white;
+  padding:25px;
+  border-radius:10px;
 }
 
-h1 {
-  margin-bottom: 20px;
-  text-align: center;
+h1{
+  text-align:center;
+  margin-bottom:20px;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+form{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
 }
 
-input {
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+input,
+select{
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:6px;
 }
 
-button {
-  padding: 12px;
-  border: none;
-  background: #2563eb;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
+button{
+  padding:12px;
+  border:none;
+  background:#2563eb;
+  color:white;
+  border-radius:6px;
+  cursor:pointer;
 }
 
-button:hover {
-  opacity: 0.9;
+.expenses{
+  margin-top:20px;
 }
 
-.expenses {
-  margin-top: 20px;
+.expense{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  background:#eee;
+
+  padding:15px;
+
+  border-radius:6px;
+
+  margin-top:10px;
 }
 
-.expense {
-  display: flex;
-  justify-content: space-between;
-  padding: 12px;
-  margin-top: 10px;
-  background: #eee;
-  border-radius: 6px;
+.expense button{
+  background:red;
+}
+
+h2{
+  margin-top:20px;
 }
