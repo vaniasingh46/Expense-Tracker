@@ -1,4 +1,4 @@
-/* Core Reset & Full-Viewport Lock */
+/* Core Reset & Theme Palette Definitions */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,55 +6,101 @@
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+/* --- LIGHT MODE COLORS (Default) --- */
+.app-wrapper {
+  --bg-main: #f8fafc;
+  --bg-panel: #ffffff;
+  --bg-card: #ffffff;
+  --border-color: #e2e8f0;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --input-bg: #ffffff;
+  --input-border: #cbd5e1;
+  --tag-bg: #f1f5f9;
+  --tag-text: #475569;
+}
+
+/* --- DARK MODE COLORS --- */
+.app-wrapper.dark {
+  --bg-main: #0f172a;
+  --bg-panel: #1e293b;
+  --bg-card: #1e293b;
+  --border-color: #334155;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --input-bg: #0f172a;
+  --input-border: #475569;
+  --tag-bg: #334155;
+  --tag-text: #cbd5e1;
+}
+
 html, body, #root {
   width: 100%;
   height: 100vh;
-  background-color: #f8fafc;
-  overflow: hidden; /* Prevents whole-page scrolling on desktop */
+  overflow: hidden;
 }
 
-/* Master Fullscreen Application Wrapper */
 .app-wrapper {
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100vh;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Top App Bar spanning across 100% screen */
+/* Top App Bar Layout */
 .app-header {
-  background-color: #ffffff;
+  background-color: var(--bg-panel);
   padding: 16px 32px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .app-header h1 {
   font-size: 22px;
-  color: #0f172a;
+  color: var(--text-main);
   font-weight: 700;
 }
 
-/* Screen split grid layout covering the remainder of viewport height */
+/* Theme Toggle Button */
+.btn-theme {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-theme:hover {
+  background-color: var(--tag-bg);
+}
+
+
 .main-layout {
   display: grid;
   grid-template-columns: 1fr;
   flex: 1;
-  height: calc(100vh - 65px); /* Subtract header height */
-  background-color: #f8fafc;
+  height: calc(100vh - 65px);
 }
 
-/* Responsive columns for Desktop Viewports */
 @media (min-width: 992px) {
   .main-layout {
-    grid-template-columns: 350px 1fr; /* Sidebar for inputs, wide area for list */
+    grid-template-columns: 350px 1fr;
   }
 }
 
-/* --- LEFT PANEL: Input Form Layout --- */
 .form-panel {
-  background-color: #ffffff;
+  background-color: var(--bg-panel);
   padding: 32px;
-  border-right: 1px solid #e2e8f0;
+  border-right: 1px solid var(--border-color);
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -62,7 +108,7 @@ html, body, #root {
 
 .form-panel h2 {
   font-size: 18px;
-  color: #334155;
+  color: var(--text-main);
   font-weight: 600;
 }
 
@@ -81,19 +127,19 @@ form {
 .input-group label {
   font-size: 13px;
   font-weight: 600;
-  color: #64748b;
+  color: var(--text-muted);
 }
 
 input, select {
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--input-border);
   border-radius: 8px;
   font-size: 14px;
-  color: #1e293b;
-  background-color: #fff;
+  color: var(--text-main);
+  background-color: var(--input-bg);
   outline: none;
-  transition: all 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 input:focus, select:focus {
@@ -118,16 +164,15 @@ input:focus, select:focus {
   background-color: #4f46e5;
 }
 
-/* --- RIGHT PANEL: Full-Screen Dashboard Space --- */
+
 .dashboard-panel {
   padding: 32px;
   display: flex;
   flex-direction: column;
   gap: 24px;
-  overflow: hidden; /* Contains scroll behavior inside this section */
+  overflow: hidden;
 }
 
-/* Sticky top alignment with Search & Total side by side */
 .dashboard-header {
   display: flex;
   flex-wrap: wrap;
@@ -147,12 +192,11 @@ input:focus, select:focus {
   background-position: 14px center;
   background-size: 18px;
   padding-left: 44px;
-  background-color: #ffffff;
 }
 
 .total-card {
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
   padding: 10px 24px;
   border-radius: 10px;
   display: flex;
@@ -164,29 +208,28 @@ input:focus, select:focus {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #64748b;
+  color: var(--text-muted);
   font-weight: 600;
 }
 
 .total-amount {
   font-size: 24px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-main);
 }
 
-/* Scrollable container for the records */
 .expenses-list {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  overflow-y: auto; /* Scroll bar activates here if list gets long */
+  overflow-y: auto;
   padding-right: 4px;
 }
 
 .expense-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
   padding: 16px 24px;
   border-radius: 10px;
   display: flex;
@@ -202,15 +245,15 @@ input:focus, select:focus {
 
 .expense-info h3 {
   font-size: 16px;
-  color: #1e293b;
+  color: var(--text-main);
   font-weight: 600;
 }
 
 .tag {
   display: inline-block;
   font-size: 12px;
-  color: #475569;
-  background-color: #f1f5f9;
+  color: var(--tag-text);
+  background-color: var(--tag-bg);
   padding: 2px 8px;
   border-radius: 4px;
   margin-top: 6px;
@@ -226,7 +269,7 @@ input:focus, select:focus {
 .expense-actions .amount {
   font-size: 18px;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-main);
 }
 
 .btn-delete {
@@ -247,7 +290,6 @@ input:focus, select:focus {
   border-color: #ef4444;
 }
 
-/* Fallback adjustment for small displays or phones */
 @media (max-width: 991px) {
   html, body, #root {
     height: auto;
